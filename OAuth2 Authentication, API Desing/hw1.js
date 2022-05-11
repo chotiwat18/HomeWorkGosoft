@@ -52,24 +52,24 @@ app.get('/getData', (req, response) => {
 
 app.post('/createData', (req, response) => {
     if(
-        !req.body.firstname ||
-        !req.body.lastname ||
-        !req.body.id ||
-        !req.body.pos ||
-        !req.body.tel ||
-        !req.body.email
+        !req.body.Fname ||
+        !req.body.Lname ||
+        !req.body.ID ||
+        !req.body.Pos ||
+        !req.body.Tel ||
+        !req.body.Email
         ) {
         return response.status(400).send("error invalid data");
     }
 
     const sql = 'insert into employee value (:Fname, :Lname, :ID, :Pos, :Tel, :Email)'
     sqlpool.query(sql, {
-        fname: req.body.firstname,
-        lname: req.body.lastname,
-        id: req.body.id,
-        pos: req.body.pos,
-        tel: req.body.tel,
-        email: req.body.email
+        Fname: req.body.Fname,
+        Lname: req.body.Lname,
+        ID: req.body.ID,
+        Pos: req.body.Pos,
+        Tel: req.body.Tel,
+        Email: req.body.Email
     }, (err, result) => {
         if(err) {
             return response.status(400).json(err)
@@ -80,20 +80,20 @@ app.post('/createData', (req, response) => {
 
 app.put('/updateData', (req, response) => {
     if(
-        !req.body.id ||
-        !req.body.pos ||
-        !req.body.tel ||
-        !req.body.email
+        !req.body.ID ||
+        !req.body.Pos ||
+        !req.body.Tel ||
+        !req.body.Email
         ) {
         return response.status(400).send("error invalid data");
     }
     
-    const sql = 'update employee set Pos = :pos, Tel = :tel, Email = :email where ID = :id'
+    const sql = 'UPDATE employee SET Pos =:Pos, Tel =:Tel, Email =:Email where ID =:ID'
     sqlpool.query(sql, {
-        id: req.body.id,
-        pos: req.body.pos,
-        tel: req.body.tel,
-        email: req.body.email
+        ID: req.body.ID,
+        Pos: req.body.Pos,
+        Tel: req.body.Tel,
+        Email: req.body.Email
     }, (err, result) => {
         if(err) {
             return response.status(400).json(err)
@@ -104,11 +104,11 @@ app.put('/updateData', (req, response) => {
 })
 
 app.delete('/deleteData', (req, response) => {
-    if(!req.body.id) return response.status(400).send("error invalid data");
+    if(!req.body.ID) return response.status(400).send("error invalid data");
     
-    const sql = 'delete from employee where id = :id'
+    const sql = 'DELETE from employee where ID =:ID'
     sqlpool.query(sql, {
-        id: req.body.id
+        ID: req.body.ID
     }, (err, result) => {
         if(err) {
             return response.status(400).json(err)
