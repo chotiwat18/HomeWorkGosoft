@@ -12,10 +12,12 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/login.html")
 });
 
+let secretKey = "123456"; // SecretKey should define here
+
 app.get('/home', (req, res) => {
     if(!req.cookies.token) return res.redirect('/error')
 
-    jwt.verify(req.cookies.token, "123456", (err, result) => {
+    jwt.verify(req.cookies.token, secretKey, (err, _) => {
         if(err) {
             return res.redirect('/error')
         }
@@ -28,8 +30,8 @@ app.get('/error', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    if(req.body.user == "admin" && req.body.pass == "1234"){
-        const token = jwt.sign({username: "admin"}, "123456")
+    if(req.body.user === "admin" && req.body.pass === "1234"){
+        const token = jwt.sign({username: "admin"}, secretKey)
         res.cookie('token', token)
         res.redirect('/home')
     }
